@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<body>
+<h1>{{title}}</h1>
+<form method="POST" action="/likeform">
+Enter something you like: <input name="like">
+    <input type="submit">
+</form>
+<h2>Your Likes:</h2>
+%if yourlikes:
+<form method="POST" action="/deletelikes">
+    % for like in yourlikes:
+    <input type="checkbox" name="checks" value="{{like}}">
+        {{like}}
+    </input><br>
+    %end
+    <hr>
+    <input type="submit" value="Remove Selected">
+</form>
+%else:
+<p>No likes yet! Add some above.</p>
+%end
+</body>
+</html>
