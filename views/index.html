@@ -3,26 +3,44 @@
 <head>
 	<meta charset="UTF-8">
 	<title>{{title}}</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-	<h1>{{title}}</h1>
-	<form method="POST" action="/likeform">
-		Enter something you like: <input name="like">
-		<input type="submit">
-	</form>
-	<h2>Your Likes:</h2>
-	%if yourlikes:
-	<form method="POST" action="/deletelikes">
-		% for like in yourlikes:
-		<input type="checkbox" name="checks" value="{{like}}">
-		{{like}}
-		</input><br>
-		%end
-		<hr>
-		<input type="submit" value="Remove Selected">
-	</form>
-	%else:
-	<p>No likes yet! Add some above.</p>
-	%end
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-5">
+		<a class="navbar-brand" href="#">Likes</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	
+	<main class="container">
+		<h1>{{title}}</h1>
+		<form class="mb-3">
+			Enter something you like: <input id="likeinput" name="likes">
+			<button id="likeaddbutton" class="btn btn-large btn-secondary">Submit</button>
+		</form>
+		<h2>Your Likes:</h2>
+		<form method="POST" action="/deletelikes">
+			<div id="likeslist">
+				<!---AJAX will be inserted here--->
+				No likes yet! Add some above.
+			</div>
+			<hr>
+			<input class="btn btn-large btn-secondary" type="submit" value="Remove Selected">
+		</form>
+	</main>
+	<script src="/static/app.js"></script>
 </body>
 </html>

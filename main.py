@@ -1,4 +1,4 @@
-from bottle import Bottle, template, request, response, redirect
+from bottle import Bottle, template, request, response, redirect, static_file
 import model
 
 
@@ -10,25 +10,40 @@ def index():
     """Main index page of the application"""
     info = dict()
 
-    key = model.get_session(db, request.get_cookie('COOKIE_NAME'))
-
     info['title'] = "Likes Application"
-    info['yourlikes'] = model.get_likes(db, key)
 
     return template('index', info)
 
 
-@app.post('/likeform')
-def formhandler():
+@app.post('/likes')
+def likeshandler():
+    """Handles the /likes post request from JSON submission"""
 
     key = model.get_session(db, request.get_cookie('COOKIE_NAME'))
 
-    if request.forms['like']:
-        newlike = request.forms['like']
-        newlike = newlike.capitalize()
-        model.store_like(db, newlike, key)
+    if 'likes' in request.json:
+        likes = request.json['likes']
+    else:
+        likes = []
 
-    return redirect('/')
+    for like in likes:
+        if like != "":
+            model.store_like(db, like ,key)
+
+    return "Success"
+
+
+@app.get('/likes')
+def likesgethandler():
+    """Handles a get request to /likes and returns JSON version of the likes data"""
+
+    key = model.get_session(db, request.get_cookie('COOKIE_NAME'))
+
+    info = dict()
+
+    info['likes'] = model.get_likes(db, key)
+
+    return info
 
 
 @app.post('/deletelikes')
@@ -41,6 +56,11 @@ def formhandlerdelete():
             model.delete_like(db, check)
 
     return redirect('/')
+
+
+@app.route('/static/<filepath:path>')
+def server_static(filepath):
+    return static_file(filepath, root='static')
 
 
 if __name__ == "__main__":
