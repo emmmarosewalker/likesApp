@@ -17,6 +17,7 @@ def index():
 
     return template('index', info)
 
+
 @app.post('/likeform')
 def formhandler():
 
@@ -40,6 +41,7 @@ def formhandlerdelete():
             model.delete_like(db, check)
 
     return redirect('/')
+
 
 if __name__ == "__main__":
     DB_NAME = model.DATABASE_NAME
