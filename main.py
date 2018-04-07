@@ -1,5 +1,6 @@
 from bottle import Bottle, template, request, response, redirect, static_file
 import model
+import string
 
 
 app = Bottle()
@@ -23,11 +24,13 @@ def likeshandler():
 
     if 'likes' in request.json:
         likes = request.json['likes']
+
     else:
         likes = []
 
     for like in likes:
         if like != "":
+            like.upper()
             model.store_like(db, like ,key)
 
     return "Success"
@@ -44,6 +47,7 @@ def likesgethandler():
     info['likes'] = model.get_likes(db, key)
 
     return info
+
 
 
 @app.post('/deletelikes')

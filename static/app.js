@@ -1,6 +1,5 @@
-window.onload = displayLikes();
-
 window.onload = function() {
+    displayLikes();
     document.getElementById('likeaddbutton').addEventListener('click', formsubmit, false);
 }
 
